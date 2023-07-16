@@ -1,0 +1,71 @@
+
+.tableDataWrapper{
+    @apply w-full;
+    @apply overflow-auto;
+    height:400px;
+    @apply p-0;
+    @apply shadow-md;
+}
+.tableDataWrapper{
+    scrollbar-width: thin;
+    scrollbar-color: rgb(56, 56, 56) rgb(241, 241, 241);
+}
+
+.tableDataWrapper::-webkit-scrollbar {
+width: 12px;
+}
+
+.tableDataWrapper::-webkit-scrollbar-track {
+background: rgb(241, 241, 241);
+}
+
+.tableDataWrapper::-webkit-scrollbar-thumb {
+background-color: rgb(56, 56, 56);
+border-radius: 20px;
+border: 3px solid rgb(241, 241, 241);
+}
+
+.tableData{
+    position: relative;
+    @apply w-full;
+    @apply min-w-full;
+}
+.tableData, .tableData th, .tableData td{
+    border-collapse: separate;
+    border-spacing: 0;
+    @apply font-light;
+    @apply border-gray-500;
+    @apply border-b;
+    @apply box-border;
+}
+.tableData tr th:not(:last-child) , .tableData tr td:not(:last-child){
+    @apply border-r;
+}
+
+
+.tableData thead th{
+  @apply text-left;    
+  @apply border-t;   
+  position: sticky;
+  top: 0px;
+  box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.4);
+  height:50px;
+  @apply text-white;
+  @apply bg-gray-800;  
+  @apply px-2;
+}
+
+.tableData tbody tr:nth-child(odd){
+    @apply bg-gray-50;   
+}
+.tableData tbody tr:nth-child(even){
+    @apply bg-gray-100;
+}
+.tableData tbody tr:hover{
+    @apply bg-gray-200;
+}
+
+.tableData td{
+    @apply px-2;
+    @apply py-2;
+}

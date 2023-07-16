@@ -1,0 +1,35 @@
+
+
+.error{
+    @apply w-full;
+    @apply text-xs;
+    @apply text-red-500;
+    @apply text-right;
+}
+.error span{
+    @apply text-xs;
+}
+
+
+.formFieldWrapper{
+    @apply w-full;
+    @apply mb-4;
+}
+
+.formFieldName{
+    @apply font-normal;
+}
+.formField{
+    @apply w-full;
+    @apply mt-1;
+    @apply rounded;
+    @apply focus:ring-0;
+    @apply focus:border-gray-500;
+    @apply border-gray-500;
+}
+.btnSave{
+    @apply px-3;
+    @apply py-2;
+    @apply bg-blue-500;
+    @apply text-white;
+}
