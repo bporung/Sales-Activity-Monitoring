@@ -9,7 +9,7 @@ use App\Models\ReportUserPerformanceDetail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Auth;
-trait ReportUserPerformanceTrait {
+trait ReportUserPerformanceTrait3 {
 
     protected function createReportUserPerformance($state){
 
@@ -122,34 +122,16 @@ trait ReportUserPerformanceTrait {
                     $mappedSales[$keySetScore]['conversion_rate'] = 100;
                 }
 
+
+
                 // SET SALES SCORE
-                foreach($sales_scores as $sales_score){
-                    if($mappedSales[$keySetScore]['sales_rate'] >= $sales_score->min AND $mappedSales[$keySetScore]['sales_rate'] <= $sales_score->max){
-                        $mappedSales[$keySetScore]['sales_score'] = $sales_score->score;
-                        break;
-                    }
-                }
+                        $mappedSales[$keySetScore]['sales_score'] = $mappedSales[$keySetScore]['sales_rate'] > 100 ? 100 / 100 : $mappedSales[$keySetScore]['sales_rate'] / 100;
                 // SET INTERACTION SCORE
-                foreach($interaction_scores as $interaction_score){
-                    if($mappedSales[$keySetScore]['interaction_rate'] >= $interaction_score->min AND $mappedSales[$keySetScore]['interaction_rate'] <= $interaction_score->max){
-                        $mappedSales[$keySetScore]['interaction_score'] = $interaction_score->score;
-                        break;
-                    }
-                }
+                        $mappedSales[$keySetScore]['interaction_score'] = $mappedSales[$keySetScore]['interaction_rate'] > 100 ? 100 / 100 : $mappedSales[$keySetScore]['interaction_rate'] / 100;
                 // SET CONVERSION SCORE
-                foreach($conversion_scores as $conversion_score){
-                    if($mappedSales[$keySetScore]['conversion_rate'] >= $conversion_score->min AND $mappedSales[$keySetScore]['conversion_rate'] <= $conversion_score->max){
-                        $mappedSales[$keySetScore]['conversion_score'] = $conversion_score->score;
-                        break;
-                    }
-                }
+                        $mappedSales[$keySetScore]['conversion_score'] = $mappedSales[$keySetScore]['conversion_rate'] > 100 ? 100 / 100 : $mappedSales[$keySetScore]['conversion_rate'] / 100;
                 // SET CUSTOMER SCORE
-                foreach($new_customer_scores as $customer_score){
-                    if($mappedSales[$keySetScore]['customer_rate'] >= $customer_score->min AND $mappedSales[$keySetScore]['customer_rate'] <= $customer_score->max){
-                        $mappedSales[$keySetScore]['customer_score'] = $customer_score->score;
-                        break;
-                    }
-                }
+                        $mappedSales[$keySetScore]['customer_score'] = $mappedSales[$keySetScore]['customer_rate'] > 100 ? 100 / 100 : $mappedSales[$keySetScore]['customer_rate'] / 100;
                 
                 // SET FINAL SCORE
                 $mappedSales[$keySetScore]['final_score'] = 
