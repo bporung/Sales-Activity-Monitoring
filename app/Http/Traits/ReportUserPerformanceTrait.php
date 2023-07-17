@@ -100,6 +100,10 @@ trait ReportUserPerformanceTrait {
             }
         }
 
+        $max_sales_score = 1;
+        $max_customer_score = 1;
+        $max_conversion_score = 1;
+        $max_interaction_score = 1;
 
         // SET SCORES
         foreach ($mappedSales as $keySetScore => $valueSetScore) {
@@ -126,6 +130,9 @@ trait ReportUserPerformanceTrait {
                 foreach($sales_scores as $sales_score){
                     if($mappedSales[$keySetScore]['sales_rate'] >= $sales_score->min AND $mappedSales[$keySetScore]['sales_rate'] <= $sales_score->max){
                         $mappedSales[$keySetScore]['sales_score'] = $sales_score->score;
+                        if($sales_score->score > $max_sales_score){
+                            $max_sales_score = $sales_score->score;
+                        }
                         break;
                     }
                 }
@@ -133,6 +140,9 @@ trait ReportUserPerformanceTrait {
                 foreach($interaction_scores as $interaction_score){
                     if($mappedSales[$keySetScore]['interaction_rate'] >= $interaction_score->min AND $mappedSales[$keySetScore]['interaction_rate'] <= $interaction_score->max){
                         $mappedSales[$keySetScore]['interaction_score'] = $interaction_score->score;
+                        if($interaction_score->score > $max_interaction_score){
+                            $max_interaction_score = $interaction_score->score;
+                        }
                         break;
                     }
                 }
@@ -140,6 +150,9 @@ trait ReportUserPerformanceTrait {
                 foreach($conversion_scores as $conversion_score){
                     if($mappedSales[$keySetScore]['conversion_rate'] >= $conversion_score->min AND $mappedSales[$keySetScore]['conversion_rate'] <= $conversion_score->max){
                         $mappedSales[$keySetScore]['conversion_score'] = $conversion_score->score;
+                        if($conversion_score->score > $max_conversion_score){
+                            $max_conversion_score = $conversion_score->score;
+                        }
                         break;
                     }
                 }
@@ -147,6 +160,9 @@ trait ReportUserPerformanceTrait {
                 foreach($new_customer_scores as $customer_score){
                     if($mappedSales[$keySetScore]['customer_rate'] >= $customer_score->min AND $mappedSales[$keySetScore]['customer_rate'] <= $customer_score->max){
                         $mappedSales[$keySetScore]['customer_score'] = $customer_score->score;
+                        if($customer_score->score > $max_customer_score){
+                            $max_customer_score = $customer_score->score;
+                        }
                         break;
                     }
                 }
@@ -157,6 +173,15 @@ trait ReportUserPerformanceTrait {
                         + ($mappedSales[$keySetScore]['interaction_score'] * 0.15) 
                         + ($mappedSales[$keySetScore]['customer_score'] * 0.2) 
                         + ($mappedSales[$keySetScore]['conversion_score'] * 0.15);
+        }
+
+        // NORMALIZE
+        
+        foreach ($mappedSales as $keyNormalized => $valueNormalized) {
+            $mappedSales[$keyNormalized]['sales_score'] = $mappedSales[$keyNormalized]['sales_score'] / $max_sales_score;
+            $mappedSales[$keyNormalized]['interaction_score'] = $mappedSales[$keyNormalized]['interaction_score'] / $max_interaction_score;
+            $mappedSales[$keyNormalized]['conversion_score'] = $mappedSales[$keyNormalized]['conversion_score'] / $max_conversion_score;
+            $mappedSales[$keyNormalized]['customer_score'] = $mappedSales[$keyNormalized]['customer_score'] / $max_customer_score;
         }
 
 
