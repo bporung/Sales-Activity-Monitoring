@@ -108,19 +108,19 @@ trait ReportUserPerformanceTrait {
         // SET SCORES
         foreach ($mappedSales as $keySetScore => $valueSetScore) {
                 // SET RATE
-                if($mappedSales[$keySetScore]['interaction_target']){
-                    $mappedSales[$keySetScore]['interaction_rate'] = ($mappedSales[$keySetScore]['interaction_actual'] / $mappedSales[$keySetScore]['interaction_target']) * 100;
+                if($mappedSales[$keySetScore]['interaction_target'] > 0){
+                    $mappedSales[$keySetScore]['interaction_rate'] = ceil(($mappedSales[$keySetScore]['interaction_actual'] / $mappedSales[$keySetScore]['interaction_target']) * 100);
                 }
 
-                if($mappedSales[$keySetScore]['sales_target']){
-                    $mappedSales[$keySetScore]['sales_rate'] = ($mappedSales[$keySetScore]['sales_actual'] / $mappedSales[$keySetScore]['sales_target']) * 100;
+                if($mappedSales[$keySetScore]['sales_target'] > 0){
+                    $mappedSales[$keySetScore]['sales_rate'] = ceil(($mappedSales[$keySetScore]['sales_actual'] / $mappedSales[$keySetScore]['sales_target']) * 100);
                 }
 
                 if ($mappedSales[$keySetScore]['customer_target'] > 0){
-                    $mappedSales[$keySetScore]['customer_rate'] = ($mappedSales[$keySetScore]['customer_actual'] / $mappedSales[$keySetScore]['customer_target']) * 100;
+                    $mappedSales[$keySetScore]['customer_rate'] = ceil(($mappedSales[$keySetScore]['customer_actual'] / $mappedSales[$keySetScore]['customer_target']) * 100);
                 }
                 if ($mappedSales[$keySetScore]['quotation_actual'] > 0 AND $mappedSales[$keySetScore]['sales_actual'] > 0){
-                    $mappedSales[$keySetScore]['conversion_rate'] = ($mappedSales[$keySetScore]['sales_actual'] / $mappedSales[$keySetScore]['quotation_actual']) * 100;
+                    $mappedSales[$keySetScore]['conversion_rate'] = ceil(($mappedSales[$keySetScore]['sales_actual'] / $mappedSales[$keySetScore]['quotation_actual']) * 100);
                 }
                 if ($mappedSales[$keySetScore]['quotation_actual'] == 0 AND $mappedSales[$keySetScore]['sales_actual'] > 0){
                     $mappedSales[$keySetScore]['conversion_rate'] = 100;
@@ -167,12 +167,6 @@ trait ReportUserPerformanceTrait {
                     }
                 }
                 
-                // SET FINAL SCORE
-                $mappedSales[$keySetScore]['final_score'] = 
-                        ($mappedSales[$keySetScore]['sales_score'] * 0.5) 
-                        + ($mappedSales[$keySetScore]['interaction_score'] * 0.15) 
-                        + ($mappedSales[$keySetScore]['customer_score'] * 0.2) 
-                        + ($mappedSales[$keySetScore]['conversion_score'] * 0.15);
         }
 
         // NORMALIZE
@@ -182,6 +176,14 @@ trait ReportUserPerformanceTrait {
             $mappedSales[$keyNormalized]['interaction_score'] = $mappedSales[$keyNormalized]['interaction_score'] / $max_interaction_score;
             $mappedSales[$keyNormalized]['conversion_score'] = $mappedSales[$keyNormalized]['conversion_score'] / $max_conversion_score;
             $mappedSales[$keyNormalized]['customer_score'] = $mappedSales[$keyNormalized]['customer_score'] / $max_customer_score;
+
+            
+            // SET FINAL SCORE
+            $mappedSales[$keyNormalized]['final_score'] = 
+                    ($mappedSales[$keyNormalized]['sales_score'] * 0.5) 
+                    + ($mappedSales[$keyNormalized]['interaction_score'] * 0.15) 
+                    + ($mappedSales[$keyNormalized]['customer_score'] * 0.2) 
+                    + ($mappedSales[$keyNormalized]['conversion_score'] * 0.15);
         }
 
 
