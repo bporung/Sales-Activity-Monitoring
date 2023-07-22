@@ -136,7 +136,7 @@ if(!function_exists('create_notification_by_type')){
         }
         if($type == 'finalize_interaction'){
             $subjectDatas['subject'] = 'Interaction Customer '.$objectData->customer->full_name.'('.$objectData->customer->id.')';
-            $subjectDatas['description'] = 'Interaction has been finalized with Customer '.$objectData->customer->full_name.'('.$objectData->customer->id.') by '.$objectData->registered->name;
+            $subjectDatas['description'] = 'Interaction has been finalized with Customer '.$objectData->customer->full_name.'('.$objectData->customer->id.') by '.$objectData->finalized->name;
             $subjectDatas['link'] = '/customer/'.$objectData->customer_id.'/interaction/'.$objectData->id;
         }
 

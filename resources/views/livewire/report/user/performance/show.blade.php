@@ -7,15 +7,15 @@
         <h5>Generated At : {{$result->created_at}}</h5>
     </div>
     <div class="tableDataWrapper" style="min-height:500px;">
-        <h1 class="text-xl p-2">Actual Score</h1>
+        <h1 class="text-xl p-2">Scores - Matrix X</h1>
         <table class="tableData">
             <thead>
                 <tr>
                     <th rowspan=2><span>Sales Name</span></th>
-                    <th colspan=3>Sales</th>
-                    <th colspan=3>New Customer</th>
-                    <th colspan=3>Interaction</th>
-                    <th colspan=3>Conversion</th>
+                    <th colspan=3>Sales (C1)</th>
+                    <th colspan=3>New Customer (C2)</th>
+                    <th colspan=3>Interaction (C3)</th>
+                    <th colspan=3>Conversion (C4)</th>
                 </tr>
                 <tr>
                     <th>Actual</th>
@@ -36,7 +36,7 @@
                 @foreach($results as $row)
 
                     <tr>
-                        <td class="sm:bg-yellow-300">{{$row->user->name}}</td>
+                        <td >{{$row->user->name}}</td>
                         <td>{{number_format($row->sales_actual,2, ',', '.')}}</td>
                         <td>{{number_format($row->sales_target,2, ',', '.')}}</td>
                         <td>{{number_format($row->sales_score,3, ',', '.')}}</td>
@@ -60,18 +60,45 @@
             </tbody>
         </table>
     </div>
-    <div class="tableDataWrapper" style="min-height:500px;">
-        <h1 class="text-xl p-2">Normalized</h1>
+    <div class="w-full flex">
+    <div class="w-1/2 pr-2">
+    <div class="tableDataWrapper " style="min-height:500px;">
+        <h1 class="text-xl p-2">Normalized - Matrix R</h1>
         <table class="tableData">
             <thead>
                 <tr>
-                    <th><span>Rank</span></th>
                     <th><span>Sales Name</span></th>
-                    <th>Sales Score</th>
-                    <th>New Customer Score</th>
-                    <th>Interaction Score</th>
-                    <th>Conversion Score</th>
-                    <th>Final Score (Nilai Preferensi)</th>
+                    <th>Sales Score (C1)</th>
+                    <th>New Customer Score (C2)</th>
+                    <th>Interaction Score (C3)</th>
+                    <th>Conversion Score (C4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($results as $row)
+                    <tr>
+                        <td>{{$row->user->name}}</td>
+                        <td>{{number_format($row->sales_score_normalized,3, ',', '.')}}</td>
+                        <td>{{number_format($row->customer_score_normalized,3, ',', '.')}}</td>
+                        <td>{{number_format($row->interaction_score_normalized,3, ',', '.')}}</td>
+                        <td>{{number_format($row->conversion_score_normalized,3, ',', '.')}}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+
+    <div class="w-1/2 border-gray-200">
+    <div class="tableDataWrapper" style="min-height:500px;">
+        <h1 class="text-xl p-2">Ranking</h1>
+        <table class="tableData w-xl">
+            <thead>
+                <tr>
+                    <th><span>Sales Name</span></th>
+                    <th>Nilai Preferensi</th>
+                    <th><span>Rank</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,16 +111,16 @@
                     if($row->final_score == $temp_score){}
                     else{$i++;}
                 @endphp
-
                     <tr>
-                        <td class="sm:bg-yellow-300">{{$i}}</td>
+                        @if($i == 1)
                         <td class="sm:bg-yellow-300">{{$row->user->name}}</td>
-                        <td>{{number_format($row->sales_score_normalized,2, ',', '.')}}</td>
-                        <td>{{number_format($row->customer_score_normalized,2, ',', '.')}}</td>
-                        <td>{{number_format($row->interaction_score_normalized,3, ',', '.')}}</td>
-                        <td>{{number_format($row->conversion_score_normalized,3, ',', '.')}}</td>
-
+                        <td class="sm:bg-yellow-300">{{number_format($row->final_score,5, ',', '.')}}</td>
+                        <td class="sm:bg-yellow-300">{{$i}}</td>
+                        @else
+                        <td>{{$row->user->name}}</td>
                         <td>{{number_format($row->final_score,5, ',', '.')}}</td>
+                        <td>{{$i}}</td>
+                        @endif
                     </tr>
                 @php 
                     $temp_score = $row->final_score; 
@@ -101,5 +128,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    </div>
     </div>
 </div>

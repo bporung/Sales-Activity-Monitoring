@@ -52,7 +52,7 @@
                         </div>
                         <div class="w-full py-1">
                             <label class="font-semibold text-xs">PIC</label>
-                            <p class="pl-2">{{$result['contact']['name']}} - {{$result['contact']['phone_number']}}</p>
+                            <p class="pl-2">{{$result['customer']['pic']}} - 0{{$result['customer']['phone']}}</p>
                         </div>
                         <div class="w-full py-1">
                             <label class="font-semibold text-xs">Created At</label>
