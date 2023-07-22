@@ -32,7 +32,7 @@ class Show extends Component
         ])
         ->layout('layouts.app', [
             'pagetitle' => [
-                ['title' => $this->username , 'link' => '/profile/'.$this->data_id],
+                ['title' => $this->username , 'link' => '/profile'],
             ], 
         'navigationTab' => [
             ['title' => 'Info' , 'link' => '/profile' , 'status' => '1'],

@@ -21,13 +21,8 @@ class Create extends Component
     }
     public function getTypes(){
         $rows = [
-            ['id' => 1 , 'label' => 'Machine'], 
-            ['id' => 2 , 'label' => 'Supply'], 
-            ['id' => 3 , 'label' => 'Part'], 
-            ['id' => 4 , 'label' => 'Accessories'], 
-            ['id' => 5 , 'label' => 'Tool'], 
-            ['id' => 6 , 'label' => 'Package'], 
-            ['id' => 7 , 'label' => 'Other'], 
+            ['id' => 1 , 'label' => 'New Car'], 
+            ['id' => 2 , 'label' => 'Used Car']
         ];
         return $rows;
     }

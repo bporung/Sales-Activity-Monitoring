@@ -15,9 +15,15 @@ class Top5interaction extends Component
     }
     public function setColumnChartModel(){
 
-        $thisMonth = date('m',strtotime(now()));
-        $thisMonthYearLabel = date('M Y',strtotime(now()));
-        $thisYear = date('Y',strtotime(now()));
+        // $thisMonth = date('m',strtotime(now()));
+        // $thisMonthYearLabel = date('M Y',strtotime(now()));
+        // $thisYear = date('Y',strtotime(now()));
+
+        $thisMonth = '12';
+        $thisMonthYearLabel = 'December 2022';
+        $thisYear = '2022';
+
+
         $results = 'App\Models\User'::role('sales')->orderBy('id','ASC');
 
         $user = Auth::user();

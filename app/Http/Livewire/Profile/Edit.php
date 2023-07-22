@@ -58,10 +58,10 @@ class Edit extends Component
         $res = $this->editUser($this->state)->getData();
         if($res && $res->status === 200){
             session()->flash('success', 'Your Profile Has Been Updated.');
-            return redirect()->to('/profile/'.$this->data_id);
+            return redirect()->to('/profile');
         }else{
             session()->flash('error','There is some error occured');
-            return redirect()->to('/profile/'.$this->data_id);
+            return redirect()->to('/profile');
         }
         
     }
@@ -73,7 +73,7 @@ class Edit extends Component
         ])
         ->layout('layouts.app', [
             'pagetitle' => [
-                ['title' => $this->username , 'link' => '/profile/'.$this->data_id],
+                ['title' => $this->username , 'link' => '/profile'],
                 ['title' => 'Edit' , 'link' => ''],
             ], 
         'navigationTab' => [

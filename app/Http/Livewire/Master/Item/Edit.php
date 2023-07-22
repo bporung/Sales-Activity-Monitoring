@@ -25,7 +25,7 @@ class Edit extends Component
     public function getTypes(){
         $rows = [
             ['id' => 1 , 'label' => 'New Car'], 
-            ['id' => 2 , 'label' => 'Used Car'], 
+            ['id' => 2 , 'label' => 'Used Car']
         ];
         return $rows;
     }

@@ -172,18 +172,18 @@ trait ReportUserPerformanceTrait {
         // NORMALIZE
         
         foreach ($mappedSales as $keyNormalized => $valueNormalized) {
-            $mappedSales[$keyNormalized]['sales_score'] = $mappedSales[$keyNormalized]['sales_score'] / $max_sales_score;
-            $mappedSales[$keyNormalized]['interaction_score'] = $mappedSales[$keyNormalized]['interaction_score'] / $max_interaction_score;
-            $mappedSales[$keyNormalized]['conversion_score'] = $mappedSales[$keyNormalized]['conversion_score'] / $max_conversion_score;
-            $mappedSales[$keyNormalized]['customer_score'] = $mappedSales[$keyNormalized]['customer_score'] / $max_customer_score;
+            $mappedSales[$keyNormalized]['sales_score_normalized'] = $mappedSales[$keyNormalized]['sales_score'] / $max_sales_score;
+            $mappedSales[$keyNormalized]['interaction_score_normalized'] = $mappedSales[$keyNormalized]['interaction_score'] / $max_interaction_score;
+            $mappedSales[$keyNormalized]['conversion_score_normalized'] = $mappedSales[$keyNormalized]['conversion_score'] / $max_conversion_score;
+            $mappedSales[$keyNormalized]['customer_score_normalized'] = $mappedSales[$keyNormalized]['customer_score'] / $max_customer_score;
 
             
             // SET FINAL SCORE
             $mappedSales[$keyNormalized]['final_score'] = 
-                    ($mappedSales[$keyNormalized]['sales_score'] * 0.5) 
-                    + ($mappedSales[$keyNormalized]['interaction_score'] * 0.15) 
-                    + ($mappedSales[$keyNormalized]['customer_score'] * 0.2) 
-                    + ($mappedSales[$keyNormalized]['conversion_score'] * 0.15);
+                    ($mappedSales[$keyNormalized]['sales_score_normalized'] * 0.5) 
+                    + ($mappedSales[$keyNormalized]['interaction_score_normalized'] * 0.15) 
+                    + ($mappedSales[$keyNormalized]['customer_score_normalized'] * 0.2) 
+                    + ($mappedSales[$keyNormalized]['conversion_score_normalized'] * 0.15);
         }
 
 
@@ -215,9 +215,17 @@ trait ReportUserPerformanceTrait {
                 'interaction_score' => $mappedSales[$key]['interaction_score'],
                 'customer_score' => $mappedSales[$key]['customer_score'],
                 'conversion_score' => $mappedSales[$key]['conversion_score'],
+                'sales_score_normalized' => $mappedSales[$key]['sales_score_normalized'],
+                'interaction_score_normalized' => $mappedSales[$key]['interaction_score_normalized'],
+                'customer_score_normalized' => $mappedSales[$key]['customer_score_normalized'],
+                'conversion_score_normalized' => $mappedSales[$key]['conversion_score_normalized'],
                 'final_score' => $mappedSales[$key]['final_score'],
             ]);
         }
+
+
+        
+        create_notification_by_type('create_reportuserperformance',$createReport);
 
         return response()->json([
             'status' => 200,

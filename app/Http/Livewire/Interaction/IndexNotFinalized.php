@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Interaction;
 use Livewire\Component;
 use App\Http\Traits\Component\Pagination\PaginationTrait;
 
-class Index extends Component
+class IndexNotFinalized extends Component
 {
     use PaginationTrait;
     public $results;
@@ -27,7 +27,7 @@ class Index extends Component
         $current_page = $this->current_page;
         $per_page = $this->per_page;
 
-        $results = 'App\Models\Interaction'::orderBy('created_at','DESC');
+        $results = 'App\Models\Interaction'::whereNull('finalized_at')->orderBy('created_at','DESC');
         
         if($created_date){
             if($created_date['start'] && $created_date['end']){
@@ -55,7 +55,7 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.interaction.index',[
+        return view('livewire.interaction.indexnotfinalized',[
 
         ])
         ->layout('layouts.app', [
@@ -63,8 +63,8 @@ class Index extends Component
                 ['title' => 'Interaction' , 'link' => '/interaction'],
             ],
         'navigationTab' => [
-            ['title' => 'all' , 'link' => '/interaction' , 'status' => '1'],
-            ['title' => 'not finalized' , 'link' => '/interaction/not_finalized' , 'status' => '0'],
+            ['title' => 'all' , 'link' => '/interaction' , 'status' => '0'],
+            ['title' => 'not finalized' , 'link' => '/interaction/not_finalized' , 'status' => '1'],
         ]
         ]);
     }

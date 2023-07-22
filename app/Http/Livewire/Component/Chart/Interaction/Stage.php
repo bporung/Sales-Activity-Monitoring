@@ -14,9 +14,16 @@ class Stage extends Component
     }
     public function setColumnChartModel(){
 
-        $thisMonth = date('m',strtotime(now()));
-        $thisMonthYearLabel = date('M Y',strtotime(now()));
-        $thisYear = date('Y',strtotime(now()));
+        // $thisMonth = date('m',strtotime(now()));
+        // $thisMonthYearLabel = date('M Y',strtotime(now()));
+        // $thisYear = date('Y',strtotime(now()));
+
+
+        $thisMonth = '12';
+        $thisMonthYearLabel = 'December 2022';
+        $thisYear = '2022';
+
+        
         $results = 'App\Models\Stage'::orderBy('id','ASC')->get();
         $columnChartModel = $results->groupBy('id')
             ->reduce(function (ColumnChartModel $columnChartModel, $data) use($thisMonth,$thisYear){

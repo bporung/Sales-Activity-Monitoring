@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum', 'verified', 'permission:edit all interactiong
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all interactiongroup|read self interactiongroup'])->get('/customer/{customer_id}/interactiongroup/{id}', App\Http\Livewire\Interactiongroup\Show::class)->name('interactionGroupShow');
 
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all interaction|read self interaction'])->get('/interaction', App\Http\Livewire\Interaction\Index::class)->name('interactionIndex');
+Route::middleware(['auth:sanctum', 'verified', 'permission:read all interaction|read self interaction'])->get('/interaction/not_finalized', App\Http\Livewire\Interaction\IndexNotFinalized::class)->name('interactionIndexNotFinalized');
 Route::middleware(['auth:sanctum', 'verified', 'permission:create all interaction|create self interaction'])->get('/customer/{customer_id}/interaction/create', App\Http\Livewire\Interaction\Create::class)->name('interactionCreate');
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all interaction|read self interaction'])->get('/customer/{customer_id}/interaction/{id}', App\Http\Livewire\Interaction\Show::class)->name('interactionShow');
 Route::middleware(['auth:sanctum', 'verified', 'permission:edit all interaction|edit self interaction'])->get('/customer/{customer_id}/interaction/{id}/edit', App\Http\Livewire\Interaction\Edit::class)->name('interactionEdit');

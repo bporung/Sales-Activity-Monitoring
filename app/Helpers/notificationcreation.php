@@ -33,6 +33,16 @@ if(!function_exists('create_notification_by_type')){
         $userRoles = ['Super Admin'];
         $userPermissions = [];
 
+
+
+        // REPORT USER PERFORMANCE
+        if($type == 'create_reportuserperformance'){
+            $users = $objectData->registered && $objectData->registered->usersuperiors ? $objectData->registered->usersuperiors->pluck('id')->toArray() : [];
+            $userPermissions =  [];
+            $userRoles = get_users_by_roles(['Super Admin','Admin']);
+        }
+
+
         // INTERACTION
         if($type == 'create_interaction'){
             $users = $objectData->registered && $objectData->registered->usersuperiors ? $objectData->registered->usersuperiors->pluck('id')->toArray() : [];
@@ -102,6 +112,16 @@ if(!function_exists('create_notification_by_type')){
         $subjectDatas['subject'] = '';
         $subjectDatas['description'] = '';
         $subjectDatas['link'] = '';
+
+
+        
+        // REPORT USER PERFORMANCE
+        if($type == 'create_reportuserperformance'){
+            $subjectDatas['subject'] = 'Report User Performance '.$objectData->report_name;
+            $subjectDatas['description'] = 'New Report User Performance Has Been Created : '.$objectData->report_name.'(Period : '.$objectData->start_date.' to '.$objectData->end_date.')';
+            $subjectDatas['link'] = '/report/user/performances/'.$objectData->id;
+        }
+
 
         // INTERACTION
         if($type == 'create_interaction'){
