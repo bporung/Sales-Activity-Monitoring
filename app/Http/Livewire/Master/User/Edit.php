@@ -12,6 +12,8 @@ class Edit extends Component
 
     public $data_id;
     public $username;
+    public $user;
+    public $result;
     public $state = [];
 
     
@@ -27,14 +29,22 @@ class Edit extends Component
         $this->roles = $this->getRoles();
 
         $result = 'App\Models\User'::findOrFail($id);
+        $this->result = $result;
         
         $user = Auth::user();
+        $this->user = $user;
         $user_id = $user->id;
         if($user->can('edit all user')){
+
+            if(!Auth::user()->hasRole('Super Admin')){
+                if($result->hasRole('Super Admin')){
+                    abort(403);
+                }
+            }
             
         }else{
             if($user->can('edit self user')){
-                abort(404);
+                abort(403);
             }
         }
 
@@ -83,43 +93,33 @@ class Edit extends Component
 
     public function render()
     {
-        if($this->state['role_id'] == '3'){
-            return view('livewire.master.user.edit',[
 
-            ])
-            ->layout('layouts.app', [
-                'pagetitle' => [
-                    ['title' => 'User' , 'link' => '/user'],
-                    ['title' => $this->username , 'link' => '/user/'.$this->data_id],
-                    ['title' => 'Edit' , 'link' => ''],
-                ], 
-            'navigationTab' => [
+        $boolPermissionsTarget = $this->user->canany(['edit sales target']);
+        $boolPermissionsChangePW = $this->user->canany(['edit all user']);
+        $boolIfSales = $this->result->hasRole('Sales');
+        $navTab = [
                 ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
-                ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '1'],
-                ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '0'],
-                ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '0'],
-                // ['title' => 'Edit subordinate' , 'link' => '/user/'.$this->data_id.'/editsubordinate' , 'status' => '0'],
-            ]
-            ]);
-        }else{
-            return view('livewire.master.user.edit',[
-
-            ])
-            ->layout('layouts.app', [
-                'pagetitle' => [
-                    ['title' => 'User' , 'link' => '/user'],
-                    ['title' => $this->username , 'link' => '/user/'.$this->data_id],
-                    ['title' => 'Edit' , 'link' => ''],
-                ], 
-            'navigationTab' => [
-                ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
-                ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '1'],
-                ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '0'],
-                // ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '0'],
-                // ['title' => 'Edit subordinate' , 'link' => '/user/'.$this->data_id.'/editsubordinate' , 'status' => '0'],
-            ]
-            ]);
-
+        ];
+        if($boolPermissionsChangePW){
+            $navTab[] = ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '1'];
+            $navTab[] = ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '0'];
         }
+        if($boolPermissionsTarget && $boolIfSales){
+            $navTab[] = ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '0'];
+        }
+
+
+            return view('livewire.master.user.edit',[
+
+            ])
+            ->layout('layouts.app', [
+                'pagetitle' => [
+                    ['title' => 'User' , 'link' => '/user'],
+                    ['title' => $this->username , 'link' => '/user/'.$this->data_id],
+                    ['title' => 'Edit' , 'link' => ''],
+                ], 
+            'navigationTab' => $navTab
+            ]);
+
     }
 }

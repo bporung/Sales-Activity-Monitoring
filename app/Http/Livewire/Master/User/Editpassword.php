@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Master\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UserTrait;
+use Auth;
 
 class Editpassword extends Component
 {
@@ -13,6 +14,7 @@ class Editpassword extends Component
     public $data_id;
     public $username;
     public $result;
+    public $user;
     public $state = [];
 
 
@@ -20,6 +22,12 @@ class Editpassword extends Component
         $this->data_id = $id;
 
         $result = 'App\Models\User'::findOrFail($id);
+        $this->user = Auth::user();
+        if(!Auth::user()->hasRole('Super Admin')){
+            if($result->hasRole('Super Admin')){
+                abort(403);
+            }
+        }
         $this->result = $result;
         $this->fill(['state' => $result->toArray()]);
         $this->username = $result->username;
@@ -59,8 +67,21 @@ class Editpassword extends Component
 
     public function render()
     {
-        $role = $this->result->roles()->pluck('id')->first();
-        if($role == '3'){
+
+        $boolPermissionsTarget = $this->user->canany(['edit sales target']);
+        $boolPermissionsChangePW = $this->user->canany(['edit all user']);
+        $boolIfSales = $this->result->hasRole('Sales');
+        $navTab = [
+                ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
+        ];
+        if($boolPermissionsChangePW){
+            $navTab[] = ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '0'];
+            $navTab[] = ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '1'];
+        }
+        if($boolPermissionsTarget && $boolIfSales){
+            $navTab[] = ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '0'];
+        }
+
             return view('livewire.master.user.editpassword',[
 
             ])
@@ -70,33 +91,8 @@ class Editpassword extends Component
                     ['title' => $this->username , 'link' => '/user/'.$this->data_id],
                     ['title' => 'Change Password' , 'link' => ''],
                 ], 
-            'navigationTab' => [
-                ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
-                ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '0'],
-                ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '1'],
-                ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '0'],
-                // ['title' => 'Edit subordinate' , 'link' => '/user/'.$this->data_id.'/editsubordinate' , 'status' => '0'],
-            ]
-            ]);
-        }else{
-            return view('livewire.master.user.editpassword',[
-
-            ])
-            ->layout('layouts.app', [
-                'pagetitle' => [
-                    ['title' => 'User' , 'link' => '/user'],
-                    ['title' => $this->username , 'link' => '/user/'.$this->data_id],
-                    ['title' => 'Change Password' , 'link' => ''],
-                ], 
-            'navigationTab' => [
-                ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
-                ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '0'],
-                ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '1'],
-                // ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '0'],
-                // ['title' => 'Edit subordinate' , 'link' => '/user/'.$this->data_id.'/editsubordinate' , 'status' => '0'],
-            ]
+            'navigationTab' => $navTab
             ]);
             
-        }
     }
 }

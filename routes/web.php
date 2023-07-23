@@ -20,13 +20,26 @@ Route::get('/', function () {
     return redirect()->to('/login');
 });
 
+
+Route::get('/generate', function (){
+    $targetFolder = '../appssource/storage/app/public';
+    $linkFolder ='../public_html/storage';
+    symlink($targetFolder,$linkFolder);
+    echo 'Symlink completed';
+});
+
+Route::get('/clear-cache', function () {
+'Illuminate\Support\Facades\Cache'::flush();
+return "Cache Cleared";
+});
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', App\Http\Livewire\Dashboard\Index::class)->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all user|read self user'])->get('/user', App\Http\Livewire\Master\User\Index::class)->name('userIndex');
 Route::middleware(['auth:sanctum', 'verified', 'permission:create all user'])->get('/user/create', App\Http\Livewire\Master\User\Create::class)->name('userCreate');
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all user|read self user'])->get('/user/{id}', App\Http\Livewire\Master\User\Show::class)->name('userShow');
 Route::middleware(['auth:sanctum', 'verified', 'permission:edit all user|edit self user'])->get('/user/{id}/edit', App\Http\Livewire\Master\User\Edit::class)->name('userEdit');
-Route::middleware(['auth:sanctum', 'verified', 'permission:edit all user|edit self user'])->get('/user/{id}/editsales', App\Http\Livewire\Master\User\Editsales::class)->name('userEditSales');
+Route::middleware(['auth:sanctum', 'verified', 'permission:edit sales target'])->get('/user/{id}/editsales', App\Http\Livewire\Master\User\Editsales::class)->name('userEditSales');
 Route::middleware(['auth:sanctum', 'verified', 'permission:edit all user'])->get('/user/{id}/editpassword', App\Http\Livewire\Master\User\Editpassword::class)->name('userEditPassword');
 Route::middleware(['auth:sanctum', 'verified', 'permission:edit all user'])->get('/user/{id}/editsubordinate', App\Http\Livewire\Master\User\Editsubordinate::class)->name('userEditSubordinate');
 
@@ -47,10 +60,10 @@ Route::middleware(['auth:sanctum', 'verified', 'permission:read all interaction|
 Route::middleware(['auth:sanctum', 'verified', 'permission:edit all interaction|edit self interaction'])->get('/customer/{customer_id}/interaction/{id}/edit', App\Http\Livewire\Interaction\Edit::class)->name('interactionEdit');
 
 
-Route::middleware(['auth:sanctum', 'verified', 'permission:read all item|read self item'])->get('/item', App\Http\Livewire\Master\Item\Index::class)->name('itemIndex');
+Route::middleware(['auth:sanctum', 'verified', 'permission:read all item'])->get('/item', App\Http\Livewire\Master\Item\Index::class)->name('itemIndex');
 Route::middleware(['auth:sanctum', 'verified', 'permission:create all item'])->get('/item/create', App\Http\Livewire\Master\Item\Create::class)->name('itemCreate');
-Route::middleware(['auth:sanctum', 'verified', 'permission:read all item|read self item'])->get('/item/{id}', App\Http\Livewire\Master\Item\Show::class)->name('itemShow');
-Route::middleware(['auth:sanctum', 'verified', 'permission:edit all item|edit self item'])->get('/item/{id}/edit', App\Http\Livewire\Master\Item\Edit::class)->name('itemEdit');
+Route::middleware(['auth:sanctum', 'verified', 'permission:read all item'])->get('/item/{id}', App\Http\Livewire\Master\Item\Show::class)->name('itemShow');
+Route::middleware(['auth:sanctum', 'verified', 'permission:edit all item'])->get('/item/{id}/edit', App\Http\Livewire\Master\Item\Edit::class)->name('itemEdit');
 
 
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all interaction|read self interaction'])->get('/map/interaction', App\Http\Livewire\Map\Interaction\Index::class)->name('mapInteractionIndex');
@@ -59,8 +72,8 @@ Route::middleware(['auth:sanctum', 'verified', 'permission:read all interaction|
 
 
 
-Route::middleware(['auth:sanctum', 'verified', 'permission:read all user'])->get('/report/user/performances', App\Http\Livewire\Report\User\Performance\Index::class)->name('reportUsePerformanceIndex');
-Route::middleware(['auth:sanctum', 'verified', 'permission:read all user'])->get('/report/user/performances/{id}', App\Http\Livewire\Report\User\Performance\Show::class)->name('reportUsePerformanceShow');
+Route::middleware(['auth:sanctum', 'verified', 'permission:read all report|create all report'])->get('/report/user/performances', App\Http\Livewire\Report\User\Performance\Index::class)->name('reportUsePerformanceIndex');
+Route::middleware(['auth:sanctum', 'verified', 'permission:read all report|create all report'])->get('/report/user/performances/{id}', App\Http\Livewire\Report\User\Performance\Show::class)->name('reportUsePerformanceShow');
 
 
 Route::middleware(['auth:sanctum', 'verified', 'permission:read all user|read self user'])->get('/report/user', App\Http\Livewire\Report\User\Index::class)->name('reportUserIndex');

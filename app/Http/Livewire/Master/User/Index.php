@@ -11,6 +11,7 @@ class Index extends Component
     use AuthenticationTrait,PaginationTrait;
     public $results;
     public $pagination;
+    public $user;
 
 
     public function mount(){
@@ -32,6 +33,7 @@ class Index extends Component
 
         
         $user = Auth::user();
+        $this->user = Auth::user();
         $user_id = $user->id;
         if($user->can('read all user')){
             
@@ -78,6 +80,13 @@ class Index extends Component
 
     public function render()
     {
+        $boolPermissionsCreate = $this->user->can('create all user');
+        $navTab = [
+            ['title' => 'All' , 'link' => '/user' , 'status' => '1'],
+        ];
+        if($boolPermissionsCreate){
+            $navTab[] = ['title' => 'Create' , 'link' => '/user/create' , 'status' => '0'];
+        }
         return view('livewire.master.user.index',[
 
         ])
@@ -85,10 +94,7 @@ class Index extends Component
             'pagetitle' => [
                 ['title' => 'User' , 'link' => ''],
             ],
-            'navigationTab' => [
-                ['title' => 'All' , 'link' => '/user' , 'status' => '1'],
-                ['title' => 'Create' , 'link' => '/user/create' , 'status' => '0'],
-            ]
+            'navigationTab' => $navTab
         ]);
     }
 }

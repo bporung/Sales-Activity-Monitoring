@@ -39,7 +39,7 @@ if(!function_exists('create_notification_by_type')){
         if($type == 'create_reportuserperformance'){
             $users = $objectData->registered && $objectData->registered->usersuperiors ? $objectData->registered->usersuperiors->pluck('id')->toArray() : [];
             $userPermissions =  [];
-            $userRoles = get_users_by_roles(['Super Admin','Admin']);
+            $userRoles = get_users_by_roles(['Super Admin','Manager']);
         }
 
 

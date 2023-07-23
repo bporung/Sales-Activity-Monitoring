@@ -69,7 +69,7 @@
                         <div class="">
                             <ul>
                                 <li class="py-3"><span class="px-2 text-gray-500">Report</span></li>
-                                @canany(['read all user','read self user'])
+                                @canany(['read all report','create all report'])
                                 <li class="py-2"><a href="/report/user/performances" class="px-5">User Performance</a></li>
                                 @endcanany
                             </ul>

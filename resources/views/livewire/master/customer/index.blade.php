@@ -34,7 +34,7 @@
                                 <p>{{$result['province']['name']}}</p>
                                 <p>{{$result['address']}}</p>
                             </div>
-                            <p>Last Update : 17/10/2021</p>
+                            <p>Created : {{date("d/m/Y H:i",strtotime($result['created_at']))}}</p>
                         </div>
                     </td>
                     <td class="hidden sm:table-cell">

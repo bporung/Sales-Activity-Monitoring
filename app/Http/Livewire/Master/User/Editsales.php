@@ -12,6 +12,8 @@ class Editsales extends Component
 
     public $data_id;
     public $username;
+    public $result;
+    public $user;
     public $state = [];
 
     
@@ -21,9 +23,11 @@ class Editsales extends Component
         $this->data_id = $id;
 
         $result = 'App\Models\User'::findOrFail($id);
+        $this->result = $result;
         
         $user = Auth::user();
         $user_id = $user->id;
+        $this->user = $user;
         if($user->can('edit all user')){
             
         }else{
@@ -79,6 +83,21 @@ class Editsales extends Component
 
     public function render()
     {
+
+
+        $boolPermissionsTarget = $this->user->canany(['edit sales target']);
+        $boolPermissionsChangePW = $this->user->canany(['edit all user']);
+        $boolIfSales = $this->result->hasRole('Sales');
+        $navTab = [
+                ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
+        ];
+        if($boolPermissionsChangePW){
+            $navTab[] = ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '0'];
+            $navTab[] = ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '0'];
+        }
+        if($boolPermissionsTarget && $boolIfSales){
+            $navTab[] = ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '1'];
+        }
         return view('livewire.master.user.editsales',[
 
         ])
@@ -88,12 +107,7 @@ class Editsales extends Component
                 ['title' => $this->username , 'link' => '/user/'.$this->data_id],
                 ['title' => 'Edit Sales' , 'link' => ''],
             ], 
-        'navigationTab' => [
-            ['title' => 'Info' , 'link' => '/user/'.$this->data_id , 'status' => '0'],
-            ['title' => 'Edit' , 'link' => '/user/'.$this->data_id.'/edit' , 'status' => '0'],
-            ['title' => 'Change password' , 'link' => '/user/'.$this->data_id.'/editpassword' , 'status' => '0'],
-            ['title' => 'Edit Sales' , 'link' => '/user/'.$this->data_id.'/editsales' , 'status' => '1'],
-        ]
+        'navigationTab' => $navTab
         ]);
     }
 }

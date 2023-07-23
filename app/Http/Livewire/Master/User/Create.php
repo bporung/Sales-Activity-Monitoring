@@ -50,7 +50,7 @@ class Create extends Component
                 'role_id' => 'Role',
             ],
         )->validate();
-        $res = $this->createReportUserPerformance($this->state)->getData();
+        $res = $this->createUser($this->state)->getData();
         if($res && $res->status === 200){
             session()->flash('success', $res->message);
             if($res->redirect_link){
