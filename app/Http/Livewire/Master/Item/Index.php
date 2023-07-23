@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Master\Item;
 
 use Livewire\Component;
 use App\Http\Traits\Component\Pagination\PaginationTrait;
-
+use Auth;
 class Index extends Component
 {
     use PaginationTrait;
@@ -41,18 +41,22 @@ class Index extends Component
 
     public function render()
     {
+        $boolPermissionsCreate = Auth::user()->can('create all item');
+        $navTab = [
+            ['title' => 'All' , 'link' => '/item' , 'status' => '1'],
+        ];
+        if($boolPermissionsCreate){
+            $navTab[] = ['title' => 'Create' , 'link' => '/item/create' , 'status' => '0'];
+        }
+
         return view('livewire.master.item.index',[
 
         ])
         ->layout('layouts.app', [
             'pagetitle' => [
                 ['title' => 'Item' , 'link' => '/item'],
-                ['title' => 'Create' , 'link' => ''],
             ],
-        'navigationTab' => [
-            ['title' => 'all' , 'link' => '/item' , 'status' => '1'],
-            ['title' => 'create' , 'link' => '/item/create' , 'status' => '0'],
-        ]
+        'navigationTab' => $navTab
         ]);
     }
 }

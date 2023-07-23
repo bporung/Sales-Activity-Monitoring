@@ -90,6 +90,8 @@
                             <th>Item(s)</th>
                             <th>Qty</th>
                             <th>Unit Price</th>
+                            <th>Base Item Price</th>
+                            <th>Check</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,6 +106,20 @@
                             </td>
                             <td>
                                 {{$detail->unit_price ? number_format($detail->unit_price,0) : '-'}}
+                            </td>
+                            <td>
+                                {{$detail->item && $detail->item->unit_price ? number_format($detail->item->unit_price,0) : '-'}}
+                            </td>
+                            <td>
+                                @php
+                                    if($detail->unit_price){
+                                        if($detail->unit_price >= $detail->item->unit_price){
+                                            echo "OK";
+                                        }else{
+                                            echo "Not OK";
+                                        }
+                                    }
+                                @endphp
                             </td>
                         </tr>
                         @endforeach

@@ -65,6 +65,12 @@ trait CustomerTrait {
             'registered_by' => Auth::user()->id,
         ]);
 
+        if(Auth::user()->hasRole('Sales')){
+            $createGroup->hasusers()->create([
+                'user_id' => Auth::user()->id,
+            ]);
+        }
+
          return response()->json([
              'status' => 200,
              'message' => 'Customer '.$createItem->id.' has been created.',

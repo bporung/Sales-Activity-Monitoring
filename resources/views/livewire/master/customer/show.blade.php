@@ -54,6 +54,10 @@
                     <p>Note :</p>
                     <p class="font-normal text-lg">{{$result->note ? $result->note : '-'}}</p>
                 </div>
+                <div class="mb-3">
+                    <p>Registered By :</p>
+                    <p class="font-normal text-lg">{{$result->registered ? $result->registered->name : '-'}}</p>
+                </div>
             </div>
             <!-- END OF CUSTOMER DATA -->
 

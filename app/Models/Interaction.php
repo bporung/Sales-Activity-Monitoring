@@ -33,7 +33,7 @@ class Interaction extends Model
                 $total_price += $total_price_unit;
             }
         }
-        return $total_price_unit;
+        return $total_price;
     }
 
     public function details(){

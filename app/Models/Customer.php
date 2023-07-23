@@ -38,6 +38,9 @@ class Customer extends Model
     }
 
 
+    public function registered(){
+        return $this->belongsTo('App\Models\User','registered_by');
+    }
     public function title(){
         return $this->belongsTo('App\Models\Category','title_id','code')->where('group','CustomerTitle');
     }

@@ -35,6 +35,11 @@ trait InteractionTrait {
                 'name' => $state['group_name'],
                 'registered_by' => Auth::user()->id,
             ]);
+            if(Auth::user()->hasRole('Sales')){
+                $createGroup->hasusers()->create([
+                    'user_id' => Auth::user()->id,
+                ]);
+            }
             $group_id = $createGroup->id;
         }else{
             $group_id = $state['group_id'];
@@ -91,6 +96,11 @@ trait InteractionTrait {
                 'name' => $state['group_name'],
                 'registered_by' => Auth::user()->id,
             ]);
+            if(Auth::user()->hasRole('Sales')){
+                $createGroup->hasusers()->create([
+                    'user_id' => Auth::user()->id,
+                ]);
+            }
             $group_id = $createGroup->id;
         }else{
             $group_id = $state['group_id'];
@@ -107,7 +117,22 @@ trait InteractionTrait {
         ]);
         // CREATE DETAILS
         foreach($state['details'] as $detail){
-            if(isset($detail['item_id']) && $detail['item_id']){
+            if(isset($detail['id']) && $detail['item_id']){
+                    $detailInt = $createItem->details()->find($detail['id']);
+                    if ($detailInt) {
+                        if(isset($detail['del']) && $detail['del'] == '1'){
+                            $detailInt->delete();
+                        }else{
+                            $detailInt->update([
+                                'item_id' => $detail['item_id'],
+                                'qty' => isset($detail['qty']) && $detail['qty'] ? $detail['qty'] : 1,
+                                'unit_price' => isset($detail['unit_price']) && $detail['unit_price'] ? $detail['unit_price'] : null,
+                            ]);
+                    
+                            $detailInt->save();
+                        }
+                    }
+            }else{
                 $createItem->details()->create([
                     'item_id' => $detail['item_id'],
                     'qty' => isset($detail['qty']) && $detail['qty'] ? $detail['qty'] : 1,

@@ -45,6 +45,12 @@ class Create extends Component
     public function addItem(){
         $this->state['details'][] = [];
     }
+    public function delItem(){
+        $countItems = count($this->state['details']);
+        if($countItems > 0){
+                array_pop($this->state['details']);
+        }
+    }
     public function submit()
     {
         // DEFINE DETAILS ITEM

@@ -52,6 +52,20 @@ class Edit extends Component
     public function addItem(){
         $this->state['details'][] = [];
     }
+    public function delItem(){
+        $countItems = 0;
+        foreach($this->state['details'] as $det){
+            if(isset($det['del'])){break;}
+            $countItems++;
+        }
+        if($countItems > 0){
+            if(isset($this->state['details'][$countItems - 1]['id'])){
+                $this->state['details'][$countItems - 1]['del'] = '1';
+            }else{
+                array_pop($this->state['details']);
+            }
+        }
+    }
     public function submit()
     {
         // DEFINE DETAILS ITEM

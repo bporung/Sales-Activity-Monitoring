@@ -29,7 +29,18 @@
                 </div>
 
                 <div class="formFieldWrapper">
-                    <label class="formFieldName" for="category">Category * :</label>
+                        @php 
+                            $categories = '\App\Models\Category'::where('group','CustomerCategory')->get();
+                            $countCats = count($categories);
+                            $i = 1;
+                        @endphp
+                    <label for="category">Category * (
+                    
+                        @foreach($categories as $cat)
+                        <span class="mr-2">{{$cat->name}} {{$i < $countCats ? ',' : ' '}}</span>
+                        @php $i++ @endphp
+                        @endforeach
+                        ):</label>
                     @livewire('component.form.selector.multiselector',[
                         'groupComponentName' => 'CategoryMultiSelector',
                         'componentName' => 'CategoryMultiSelector',

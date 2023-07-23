@@ -33,7 +33,7 @@
             </div>
             <div class="w-full md:w-1/3 p-3">
                 <div class="formFieldWrapper">
-                    <label class="formFieldName" for="users">User *:</label>
+                    <label class="formFieldName" for="users">User:</label>
                     @livewire('component.form.selector.multiselector',[
                                     'groupComponentName' => 'UserMultiSelector',
                                     'componentName' => 'UserMultiSelector',

@@ -30,6 +30,10 @@
         <div class="w-full md:w-1/2 lg:w-2/5 p-2">
             <div class="bg-white p-4 mb-2 shadow">
                 <div class="mb-3">
+                    <p>Registered by :</p>
+                    <p class="font-normal text-lg whitespace-pre-line">{{$result->registered ? $result->registered->name : '-'}}</p>
+                </div>
+                <div class="mb-3">
                     <p>Status :</p>
                     <p class="font-normal text-lg">{{$result->is_active ? 'Active' : 'Not Active'}}</p>
                 </div>

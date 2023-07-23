@@ -46,7 +46,7 @@ class Edit extends Component
                 'customer_id' => 'required',
                 'name' => 'required',
                 'description' => 'nullable',
-                'hasusers' => 'required',
+                //'hasusers' => 'required',
             ],
             [
                 'required' => ':attribute tidak boleh kosong',

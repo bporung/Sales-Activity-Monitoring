@@ -18,7 +18,7 @@
                     <th colspan=3>Conversion (C4)</th>
                 </tr>
                 <tr>
-                    <th>Actual</th>
+                    <th>Actual(SO)</th>
                     <th>Target</th>
                     <th>Score</th>
                     <th>Actual</th>
@@ -27,7 +27,7 @@
                     <th>Actual</th>
                     <th>Target</th>
                     <th>Score</th>
-                    <th>Prospect</th>
+                    <th>Prospect(Quotation)</th>
                     <th>Rate</th>
                     <th>Score</th>
                 </tr>

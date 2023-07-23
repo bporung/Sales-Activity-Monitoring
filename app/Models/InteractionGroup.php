@@ -89,12 +89,12 @@ class InteractionGroup extends Model
                         }
                         array_push($userArr,$user->id);
 
-                        $builder->where(function($p) use($userArr){
+                        $builder->where(function($p) use($userArr,$user){
                             $p->orWhereHas('users',function($q) use($userArr){
                                 $q->whereIn('id',$userArr);
                             })->orWhereHas('interactions',function($r) use($userArr){
                                 $r->whereIn('registered_by',$userArr);
-                            })
+                            })->orWhere('registered_by',$user->id)
                             ;
                         });
                 }else{

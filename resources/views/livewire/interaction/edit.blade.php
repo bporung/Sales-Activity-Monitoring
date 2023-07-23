@@ -96,6 +96,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach($state['details'] as $keyDetail => $detail)
+                                    @php
+                                        if(isset($detail['del']) && $detail['del'] == '1'){continue;}
+                                    @endphp
                                     <tr>
                                         <td>
                                         @livewire('component.form.selector.singleselector',[
@@ -121,7 +124,9 @@
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="3"><div class="text-center"><button type="button" wire:click="addItem" class="px-2 py-1 rounded bg-green-700 text-white">Add</button></div></td>
+                                        <td colspan="3"><div class="text-center"><button type="button" wire:click="addItem" class="px-2 py-1 rounded bg-green-700 text-white">Add</button>
+                                        <button type="button" wire:click="delItem" class="px-2 py-1 rounded bg-red-700 text-white">Del</button>
+                                    </div></td>
                                     </tr>
                                 </tbody>
                             </table>

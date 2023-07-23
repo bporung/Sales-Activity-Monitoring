@@ -56,7 +56,18 @@
 
         <div class="">
             <div class="formFieldWrapper">
-                <label class="formFieldName" for="categories">Categories *:</label>
+                        @php 
+                            $categories = '\App\Models\ItemCategory'::all();
+                            $countCats = count($categories);
+                            $i = 1;
+                        @endphp
+                    <label class="formFieldName" for="category">Categories * (
+                    
+                        @foreach($categories as $cat)
+                        <span class="mr-2">{{$cat->name}} {{$i < $countCats ? ',' : ' '}}</span>
+                        @php $i++ @endphp
+                        @endforeach
+                        ):</label>
                 <div class="w-full">
                     @livewire('component.form.selector.multiselector',[
                         'groupComponentName' => 'CategoryMultiSelector',

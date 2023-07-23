@@ -68,7 +68,7 @@ class InteractionDetail extends Model
         if($readOn){
             $this->attributes['unit_price'] = $value;
         }else{
-            $this->attributes['unit_price'] = 'secret';
+            $this->attributes['unit_price'] = $value;
         }
     }
 
