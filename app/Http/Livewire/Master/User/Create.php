@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Master\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UserTrait;
-
+use Auth;
 class Create extends Component
 {
     use UserTrait;
@@ -16,7 +16,13 @@ class Create extends Component
     public $roles;
     
     public function getRoles(){
-        $rows = 'App\Models\MsRole'::orderBy('name','ASC');
+        if(Auth::user()->hasRole('Super Admin')){
+            $rows = 'App\Models\MsRole'::orderBy('name','ASC');
+
+        }else{
+            $rows = 'App\Models\MsRole'::where('name','!=','Super Admin')->orderBy('name','ASC');
+
+        }
         return $rows->get()->toArray();
     }
 

@@ -20,7 +20,13 @@ class Edit extends Component
     public $roles;
     
     public function getRoles(){
-        $rows = 'App\Models\MsRole'::orderBy('name','ASC');
+        if(Auth::user()->hasRole('Super Admin')){
+            $rows = 'App\Models\MsRole'::orderBy('name','ASC');
+
+        }else{
+            $rows = 'App\Models\MsRole'::where('name','!=','Super Admin')->orderBy('name','ASC');
+
+        }
         return $rows->get()->toArray();
     }
 
